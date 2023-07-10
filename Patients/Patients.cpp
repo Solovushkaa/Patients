@@ -67,3 +67,4 @@ int main()
     mysql_query(mysql, "insert into patientsdata values (2, \"KUK\", \"OLD\", \"1995-05-12\", 28, \"+71234544412\")");
     mysql_query(mysql, "CREATE DATABASE pencil");
     mysql_query(mysql, "DROP DATABASE pencil");*/
+//леша пидорас
