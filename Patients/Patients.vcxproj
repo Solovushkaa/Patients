@@ -132,10 +132,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DataExtraction.cpp" />
+    <ClCompile Include="My_fun_for_MYSQL.cpp" />
     <ClCompile Include="Patients.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataExtraction.h" />
+    <ClInclude Include="My_fun_for_MYSQL.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Patients.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
