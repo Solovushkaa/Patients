@@ -22,8 +22,8 @@ DataExtraction::DataExtraction(const std::string& s)
         if (!std::regex_match(phonenum, std::regex("(([+]?[7])|[7|8])[[:d:]]{10}"))) throw DataExtractionException();
 
         if (birth[4] != '-' || birth[7] != '-') birth[4] = birth[7] = '-';
-        if (phonenum[0] != '+' && phonenum[0] == 7) phonenum = '+' + phonenum;
-        else phonenum = "+7" + phonenum.erase(0, 1);
+        if (phonenum[0] == '8') phonenum = "+7" + phonenum.erase(0, 1);
+        else if (phonenum[0] == '7') phonenum = '+' + phonenum;
     }
 }
 

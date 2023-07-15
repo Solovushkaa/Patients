@@ -12,10 +12,12 @@ void create_db(MYSQL* mysql, const std::string& db);
 void delete_db(MYSQL* mysql, const std::string& db);
 MYSQL* connect_to_DB(const std::string& host1, const std::string& user1,
     const std::string& passwd1, const std::string& db1, const unsigned int port1, const unsigned long clientflag1);
+void disconnect_from_db(MYSQL* mysql);
 
-void add_table_to_db(MYSQL* mysql_con, const std::string& name_table);
-void delete_table_from_db(MYSQL* mysql_con, const std::string& name_table);
+void add_table_to_db(MYSQL* mysql, const std::string& table_name);
+void delete_table_from_db(MYSQL* mysql, const std::string& table_name);
 
 void add_data_to_db(MYSQL* mysql, std::list<DataExtraction>& pull_d, const std::string& table_name);
 void add_data_to_db(MYSQL* mysql, DataExtraction pull_d, const std::string& table_name);
 
+void show_pull_data_from_db(MYSQL* mysql);

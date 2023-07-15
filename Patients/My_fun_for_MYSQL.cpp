@@ -38,14 +38,19 @@ MYSQL* connect_to_DB(const std::string& host1, const std::string& user1,
     return mysql;
 }
 
-void add_table_to_db(MYSQL* mysql_con, const std::string& name_table)
+void disconnect_from_db(MYSQL* mysql)
 {
-    mysql_query(mysql_con, ("create table " + name_table + "(id int NOT NULL AUTO_INCREMENT, name varchar(20), surname varchar(20), birthdate date, age int(3), phonenumber varchar(12), primary key(id));").c_str());
+    mysql_close(mysql);
 }
 
-void delete_table_from_db(MYSQL* mysql_con, const std::string& name_table)
+void add_table_to_db(MYSQL* mysql, const std::string& table_name)
 {
-    mysql_query(mysql_con, ("drop table " + name_table + ';').c_str());
+    mysql_query(mysql, ("create table " + table_name + "(id int NOT NULL AUTO_INCREMENT, name varchar(20), surname varchar(20), birthdate date, age int(3), phonenumber varchar(12), primary key(id));").c_str());
+}
+
+void delete_table_from_db(MYSQL* mysql, const std::string& table_name)
+{
+    mysql_query(mysql, ("drop table " + table_name + ';').c_str());
 }
 
 void add_data_to_db(MYSQL* mysql, std::list<DataExtraction>& pull_d, const std::string& table_name)
@@ -62,4 +67,20 @@ void add_data_to_db(MYSQL* mysql, DataExtraction pull_d, const std::string& tabl
 {
     mysql_query(mysql, ("insert into " + table_name + " (name, surname, birthdate, age, phonenumber) values " + 
         "(\"" + pull_d.get_nm() + "\", " + "\"" + pull_d.get_surnm() + "\", " + "\"" + pull_d.get_birth() + "\", " + pull_d.get_age() + ", " + "\"" + pull_d.get_phonenum() + "\");").c_str());
+}
+
+void show_pull_data_from_db(MYSQL* mysql)
+{
+    MYSQL_RES* res = mysql_store_result(mysql); // получаем дескриптор таблицы
+    MYSQL_ROW row; // получаем дескриптор строки
+        if (mysql_num_rows(res) > 0)
+        {
+            // В цикле перебираем все записи результирующей таблицы
+            while ((row = mysql_fetch_row(res)) != NULL)
+            {
+                // Выводим результат в стандартный поток
+                std::cout << row[0] << " " << row[1] << " " << row[2] << " " << row[3] << " " << row[4] << " " << row[5] << " " << row[6] << "\n";
+            }
+        }
+    mysql_free_result(res);
 }
