@@ -1,12 +1,12 @@
 #include "My_fun_for_MYSQL.h"
 
-void pull_data(std::list<DataExtraction>& a, const std::string& input) 
+void pull_data(std::list<DataExtraction>& a, const std::string& input)
 {
     std::ifstream fin(input);
     for (std::string s; getline(fin, s);)
     {
         try {
-            DataExtraction b{s};
+            DataExtraction b{ s };
             a.push_back(b);
         }
         catch (DataExtractionException) {}
@@ -14,7 +14,7 @@ void pull_data(std::list<DataExtraction>& a, const std::string& input)
     fin.close();
 }
 
-void show_data_from_cont(std::list<DataExtraction>& a) 
+void show_data_from_cont(std::list<DataExtraction>& a)
 {
     for (DataExtraction x : a)
         std::cout << x << "\n";
@@ -38,11 +38,6 @@ MYSQL* connect_to_DB(const std::string& host1, const std::string& user1,
     return mysql;
 }
 
-void disconnect_from_db(MYSQL* mysql)
-{
-    mysql_close(mysql);
-}
-
 void add_table_to_db(MYSQL* mysql, const std::string& table_name)
 {
     mysql_query(mysql, ("create table " + table_name + "(id int NOT NULL AUTO_INCREMENT, name varchar(20), surname varchar(20), birthdate date, age int(3), phonenumber varchar(12), primary key(id));").c_str());
@@ -60,27 +55,28 @@ void add_data_to_db(MYSQL* mysql, std::list<DataExtraction>& pull_d, const std::
         mysql_query(mysql, ("insert into " + table_name + " (name, surname, birthdate, age, phonenumber) values " +
             "(\"" + row.get_nm() + "\", " + "\"" + row.get_surnm() + "\", " + "\"" + row.get_birth() + "\", " + row.get_age() + ", " + "\"" + row.get_phonenum() + "\");").c_str());
     }
-    
+
 }
 
 void add_data_to_db(MYSQL* mysql, DataExtraction pull_d, const std::string& table_name)
 {
-    mysql_query(mysql, ("insert into " + table_name + " (name, surname, birthdate, age, phonenumber) values " + 
+    mysql_query(mysql, ("insert into " + table_name + " (name, surname, birthdate, age, phonenumber) values " +
         "(\"" + pull_d.get_nm() + "\", " + "\"" + pull_d.get_surnm() + "\", " + "\"" + pull_d.get_birth() + "\", " + pull_d.get_age() + ", " + "\"" + pull_d.get_phonenum() + "\");").c_str());
 }
 
-void show_pull_data_from_db(MYSQL* mysql)
+std::list<DataExtraction>& pull_data_from_db(MYSQL* mysql)
 {
-    MYSQL_RES* res = mysql_store_result(mysql); // получаем дескриптор таблицы
-    MYSQL_ROW row; // получаем дескриптор строки
-        if (mysql_num_rows(res) > 0)
+    std::list<DataExtraction> a;
+    MYSQL_RES* res = mysql_store_result(mysql);
+    MYSQL_ROW row; 
+    if (mysql_num_rows(res) > 0)
+    { 
+        while ((row = mysql_fetch_row(res)) != NULL)
         {
-            // В цикле перебираем все записи результирующей таблицы
-            while ((row = mysql_fetch_row(res)) != NULL)
-            {
-                // Выводим результат в стандартный поток
-                std::cout << row[0] << " " << row[1] << " " << row[2] << " " << row[3] << " " << row[4] << " " << row[5] << " " << row[6] << "\n";
-            }
+            DataExtraction b{row};
+            a.push_back(b);
         }
+    }
     mysql_free_result(res);
+    return a;
 }

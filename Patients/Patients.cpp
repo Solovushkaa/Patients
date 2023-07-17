@@ -6,176 +6,243 @@
 #include <string>
 #include <Windows.h>
 #include <conio.h>
-#include <exception>
 #include "DataExtraction.h"
 #include "My_fun_for_MYSQL.h"
 
 HANDLE hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
+CONSOLE_CURSOR_INFO CursorInfo;
 
 #define BUTTON_ENTER 13
 #define BUTTON_ESCAPE 27
-#define BUTTON_LEFT 75
-#define BUTTON_RIGHT 77
 #define BUTTON_UP 72
 #define BUTTON_DOWN 80
 
-void DrawLab(int pos);
-void DrawArrow(int pos, int posIf);
+void DrawMenu(int pos_f);
+void DrawEdit(int pos_s);
+void DrawArrow(int pos, int pos_if);
 
 int main()
 {
-    MYSQL* mysql = mysql_init(NULL); // получаем дескриптор бд
-    MYSQL* mysql_con;
-    
-    std::string A, B, C; unsigned int D, E;
-    std::string table_name;
-    std::list<DataExtraction> pull_d;
-
     SetConsoleTitle(L"Connect to Host");
 
-    CONSOLE_CURSOR_INFO CursorInfo;
     GetConsoleCursorInfo(hstdout, &CursorInfo);
     CursorInfo.bVisible = false;
     SetConsoleCursorInfo(hstdout, &CursorInfo);
 
-    bool outputPossible = false;
+    int pos_f = 0, pos_s = 0;
+    const int max_pos_f = 1, max_pos_s = 6;
 
-    //std::cout << "Host: "; std::cin >> A; std::cout << "\n";
-    //std::cout << "User: "; std::cin >> B; std::cout << "\n";
-    //std::cout << "Password: "; std::cin >> C; std::cout << "\n";
-    //std::cout << "Port: "; std::cin >> D; std::cout << "\n";
-    //std::cout << "Client flag: "; std::cin >> E; std::cout << "\n";
-    A = "localhost", B = "root", C = "1234";
-    D = 3306, E = 0;
-    mysql = connect_to_DB(A, B, C, "", D, E);
-
-    system("cls");
-    std::string db_creation_name;
-    db_creation_name = "patients"; //std::cout << "Database create name: "; std::cin >> db_creation_name;
-    create_db(mysql, db_creation_name);
-
-    system("cls");
-    std::string db_name;
-    db_name = "patients"; //std::cout << "Database name: "; std::cin >> db_name;
-    mysql_con = connect_to_DB(A, B, C, db_name, D, E);
-
-
-    int pos = 0;
-    const int maxPos = 7;
-
-    DrawLab(pos);
+    DrawMenu(pos_f);
     while (true)
-        switch (_getch())
-        {
-        case BUTTON_ENTER: // enter
-        case BUTTON_RIGHT: // right
-            if (pos == 0) //добавление таблиц к бд
+        switch (_getch()) { 
+        case BUTTON_ENTER:
+            if (pos_f == 0)
             {
-                SetConsoleTitle(L"Table create");
+                CursorInfo.bVisible = true;
+                SetConsoleCursorInfo(hstdout, &CursorInfo);
                 system("cls");
-                table_name = "patientsdata"; //std::cout << "Table_name: "; std::cin >> table_name;
-                add_table_to_db(mysql_con, table_name);
-                
-            }
-            else if (pos == 1)
-            {
-                SetConsoleTitle(L"Add data from \"txt\" file");
+                MYSQL* mysql = mysql_init(NULL); // получаем дескриптор бд
+
+                std::string A, B, C; unsigned int D, E;
+                std::list<DataExtraction> pull_d;
+
+                std::cout << "Enter the data:\n";
+                //std::cout << "Host: "; std::cin >> A; std::cout << "\n";
+                //std::cout << "User: "; std::cin >> B; std::cout << "\n";
+                //std::cout << "Password: "; std::cin >> C; std::cout << "\n";
+                //std::cout << "Port: "; std::cin >> D; std::cout << "\n";
+                //std::cout << "Client flag: "; std::cin >> E;
+                A = "localhost", B = "root", C = "1234";
+                D = 3306, E = 0;
+                mysql = connect_to_DB(A, B, C, "", D, E);
+
                 system("cls");
-                std::string file_name;
-                file_name = "patients.txt"; //std::cout << "file_name: "; std::cin >> file_name; std::cout << "\n";
-                table_name = "patientsdata"; //std::cout << "Table_name: "; std::cin >> table_name;
-                pull_data(pull_d, file_name);
-                add_data_to_db(mysql_con, pull_d, table_name);
-                pull_d.clear();
-                system("pause");
-            }
-            else if (pos == 2)
-            {
-                SetConsoleTitle(L"Add data from console");
+                char ver;
+                std::cout << "Create new database? Enter Y(y)/N(n): "; std::cin >> ver;
+                if (ver == 'Y' || ver == 'y')
+                {
+                    system("cls");
+                    std::string db_creation_name;
+                    db_creation_name = "patients"; //std::cout << "Database create name: "; std::cin >> db_creation_name;
+                    create_db(mysql, db_creation_name);
+                }
+
                 system("cls");
-                std::string obj;
-                obj = "Georg Bozhenov 1997-03-05 26 +79547168254"; //std::cout << "Data: "; std::cin >> nm;
-                DataExtraction data{obj};
-                add_data_to_db(mysql_con, data, table_name);
-                system("pause");
-            }
-            else if (pos == 3)
-            {
-                SetConsoleTitle(L"Show data from the database");
-                system("cls");
-                show_pull_data_from_db(mysql_con);
-                system("pause");
-            }
-            else if (pos == 4)
-            {
-                SetConsoleTitle(L"Disconnect from the Database");
-                system("cls");
-                disconnect_from_db(mysql_con);
-                system("pause");
-            }
-            else if (pos == 5)
-            {
-                SetConsoleTitle(L"Delete the table from the Database");
-                system("cls");
-                std::string table_name;
-                table_name = "patientsdata"; //std::cout << "Table name: "; std::cin >> table_name;
-                delete_table_from_db(mysql_con, table_name);
-                system("pause");
-            }
-            else if (pos == 6)
-            {
-                SetConsoleTitle(L"Delete the Database");
-                system("cls");
+                std::cout << "Enter the database name:\n";
                 std::string db_name;
-                table_name = "patientsdata"; //std::cout << "Database name: "; std::cin >> db_name;
-                delete_db(mysql_con, db_name);
-                system("pause");
+                db_name = "patients"; //std::cout << "Database name: "; std::cin >> db_name;
+                mysql = connect_to_DB(A, B, C, db_name, D, E);
+                
+                system("cls");
+                
+                std::cout << "Create new table? Enter Y(y)/N(n): "; std::cin >> ver;
+                if (ver == 'Y' || ver == 'y')
+                {
+
+                    std::cout << "Enter the creation table name:\n";
+                    std::string table_creation_name = "patientsdata";
+                    //std::cout << "Table creation name: "; std::cin >> table_creation_name;
+                    add_table_to_db(mysql, table_creation_name);
+                }
+                
+                system("cls");
+                std::cout << "Enter the table name:\n";
+                std::string table_name = "patientsdata";
+                //std::cout << "Table name: "; std::cin >> table_name;
+                system("cls");
+
+                DrawEdit(pos_s);
+                bool flag = false;
+                pos_s = 0;
+                while (true)
+                {
+                    if (flag == true)
+                    {
+                        DrawMenu(pos_f = 0);
+                        break;
+                    }
+                    switch (_getch())
+                    {
+                    case BUTTON_ENTER: // enter
+                        CursorInfo.bVisible = true;
+                        SetConsoleCursorInfo(hstdout, &CursorInfo);
+                        if (pos_s == 0)
+                        {
+                            SetConsoleTitle(L"Add data from \"txt\" file");
+                            system("cls");
+                            std::string file_name = "patients.txt";
+                            std::cout << "Enter the \"txt\" file:\n";
+                            //std::cout << "File: "; std::cin >> file_name; std::cout << "\n";
+                            pull_data(pull_d, file_name);
+                            add_data_to_db(mysql, pull_d, table_name);
+                            pull_d.clear();
+                        }
+                        else if (pos_s == 1)
+                        {
+                            SetConsoleTitle(L"Add data from console");
+                            system("cls");
+                            std::string obj;
+                            while (true)
+                            {
+                                std::cout << "Enter the information about patient(name, surname, birthdate, age, phonenumber) (press \"e\" to finish):\n";
+                                obj = "e"; //std::cout << "Patient: "; std::cin >> obj;
+                                if (obj == "e") break;
+                                DataExtraction data{ obj };  
+                                add_data_to_db(mysql, data, table_name);
+                            }
+                        }
+                        else if (pos_s == 2)
+                        {
+                            SetConsoleTitle(L"Show data from the database");
+                            system("cls");
+                            pull_d = pull_data_from_db(mysql);
+                            show_data_from_cont(pull_d);
+                            flag = true;
+                        }
+                        else if (pos_s == 3)
+                        {
+                            SetConsoleTitle(L"Disconnect from the Database");
+                            system("cls");
+                            mysql_close(mysql);
+                            std::cout << "Disconnected\n";
+                            flag = true;
+                            system("pause");
+                        }
+                        else if (pos_s == 4)
+                        {
+                            SetConsoleTitle(L"Delete the table from the Database");
+                            system("cls");
+                            std::string table_name;
+                            std::cout << "Enter the table name:\n";
+                            table_name = "patientsdata"; //std::cout << "Table name: "; std::cin >> table_name;
+                            delete_table_from_db(mysql, table_name);
+                            std::cout << "Table deleted:\n";
+                            flag = true;
+                            system("pause");
+                        }
+                        else if (pos_s == 5)
+                        {
+                            SetConsoleTitle(L"Delete the Database");
+                            system("cls");
+                            delete_db(mysql, db_name);
+                            std::cout << "Database deleted:\n";
+                            flag = true;
+                            system("pause");
+                        }
+                        else if (pos_s == 6)
+                        {
+                            mysql_close(mysql);
+                            flag = true;
+                        }
+                        pos_s = 0;
+                        DrawEdit(pos_s);
+                        break;
+
+                    case BUTTON_UP: // up
+                        if (pos_s > 0)
+                            DrawEdit(--pos_s);
+                        break;
+
+                    case BUTTON_DOWN: // down
+                        if (pos_s < max_pos_s)
+                            DrawEdit(++pos_s);
+                        break;
+                    }
+                }
             }
-            else if (pos == 7)
+            else if (pos_f == 1)
             {
-                mysql_close(mysql);
+                system("cls");
                 return 0;
             }
-            pos = 0;
-            DrawLab(pos);
-            break;
-
         case BUTTON_UP: // up
-            if (pos > 0)
-                DrawLab(--pos);
+            if (pos_f > 0)
+                DrawMenu(--pos_f);
             break;
 
         case BUTTON_DOWN: // down
-            if (pos < maxPos)
-                DrawLab(++pos);
+            if (pos_f < max_pos_f)
+                DrawMenu(++pos_f);
             break;
         }
 }
 
-void DrawLab(int pos)
+void DrawMenu(int pos_f)
 {
+    CursorInfo.bVisible = false;
+    SetConsoleCursorInfo(hstdout, &CursorInfo);
     SetConsoleTitle(L"Menu");
     system("cls");
-    std::cout << " Create table";
-    DrawArrow(pos, 0);
-    std::cout << "\n" << " Add data to database from \"txt\" file";
-    DrawArrow(pos, 1);
-    std::cout << "\n" << " Add data to database from console";
-    DrawArrow(pos, 2);
-    std::cout << "\n" << " Pull data from the database";
-    DrawArrow(pos, 3);
-    std::cout << "\n" << " Disconnect from the database";
-    DrawArrow(pos, 4);
-    std::cout << "\n" << " Delete the table";
-    DrawArrow(pos, 5);
-    std::cout << "\n" << " Delete the database";
-    DrawArrow(pos, 6);
+    std::cout << " Connect";
+    DrawArrow(pos_f, 0);
     std::cout << "\n" << " Exit";
-    DrawArrow(pos, 7);
+    DrawArrow(pos_f, 1);
 }
 
-void DrawArrow(int pos, int posIf)
+void DrawEdit(int pos_s)
 {
-    if (pos == posIf)
+    CursorInfo.bVisible = false;
+    SetConsoleCursorInfo(hstdout, &CursorInfo);
+    SetConsoleTitle(L"Edit");
+    system("cls");
+    std::cout << " Add data from \"txt\" file";
+    DrawArrow(pos_s, 0);
+    std::cout << "\n" << " Add data from console";
+    DrawArrow(pos_s, 1);
+    std::cout << "\n" << " Show data from the database";
+    DrawArrow(pos_s, 2);
+    std::cout << "\n" << " Disconnect from the database";
+    DrawArrow(pos_s, 3);
+    std::cout << "\n" << " Delete the table";
+    DrawArrow(pos_s, 4);
+    std::cout << "\n" << " Delete the database";
+    DrawArrow(pos_s, 5);
+    std::cout << "\n" << " Back";
+    DrawArrow(pos_s, 6);
+}
+
+void DrawArrow(int pos, int pos_if)
+{
+    if (pos == pos_if)
         printf("<-");
 }
