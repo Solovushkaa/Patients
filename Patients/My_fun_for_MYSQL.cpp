@@ -1,9 +1,9 @@
-#include "My_fun_for_MYSQL.h"
+п»ї#include "My_fun_for_MYSQL.h"
 
 /**
-* Чтение данных из файла
-\param a Список данных о пациентах
-\param input Имя файла
+* Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С… РёР· С„Р°Р№Р»Р°
+\param a РЎРїРёСЃРѕРє РґР°РЅРЅС‹С… Рѕ РїР°С†РёРµРЅС‚Р°С…
+\param input РРјСЏ С„Р°Р№Р»Р°
  */
 void pull_data(std::list<DataExtraction>& a, const std::string& input)
 {
@@ -20,8 +20,8 @@ void pull_data(std::list<DataExtraction>& a, const std::string& input)
 }
 
 /**
-* Вывод данных о пациенте в консоль
-\param a Список данных о пациентах
+* Р’С‹РІРѕРґ РґР°РЅРЅС‹С… Рѕ РїР°С†РёРµРЅС‚Рµ РІ РєРѕРЅСЃРѕР»СЊ
+\param a РЎРїРёСЃРѕРє РґР°РЅРЅС‹С… Рѕ РїР°С†РёРµРЅС‚Р°С…
  */
 void show_data_from_cont(std::list<DataExtraction>& a)
 {
@@ -30,9 +30,9 @@ void show_data_from_cont(std::list<DataExtraction>& a)
 }
 
  /**
- * Создание базы данных
- \param mysql Дескриптор БД
- \param db Имя БД
+ * РЎРѕР·РґР°РЅРёРµ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+ \param mysql Р”РµСЃРєСЂРёРїС‚РѕСЂ Р‘Р”
+ \param db РРјСЏ Р‘Р”
   */
 void create_db(MYSQL* mysql, const std::string& db)
 {
@@ -40,9 +40,9 @@ void create_db(MYSQL* mysql, const std::string& db)
 }
 
  /**
- * Удаление базы данных
- \param mysql Дескриптор БД
- \param db Имя БД
+ * РЈРґР°Р»РµРЅРёРµ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+ \param mysql Р”РµСЃРєСЂРёРїС‚РѕСЂ Р‘Р”
+ \param db РРјСЏ Р‘Р”
   */
 void delete_db(MYSQL* mysql, const std::string& db)
 {
@@ -50,12 +50,12 @@ void delete_db(MYSQL* mysql, const std::string& db)
 }
 
 /**
- * Подключение к базе данных
- \param host1 Хост
- \param user1 Имя пользователя
- \param passwd1 Пароль
- \param db1 Имя БД
- \param port1 Порт
+ * РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє Р±Р°Р·Рµ РґР°РЅРЅС‹С…
+ \param host1 РҐРѕСЃС‚
+ \param user1 РРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+ \param passwd1 РџР°СЂРѕР»СЊ
+ \param db1 РРјСЏ Р‘Р”
+ \param port1 РџРѕСЂС‚
  \param clientflag1 
   */
 MYSQL* connect_to_DB(const std::string& host1, const std::string& user1,
@@ -67,9 +67,9 @@ MYSQL* connect_to_DB(const std::string& host1, const std::string& user1,
 }
 
 /**
- * Добавление таблицы в базу данных
- \param mysql Дескриптор БД
- \param table_name Имя таблицы
+ * Р”РѕР±Р°РІР»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹ РІ Р±Р°Р·Сѓ РґР°РЅРЅС‹С…
+ \param mysql Р”РµСЃРєСЂРёРїС‚РѕСЂ Р‘Р”
+ \param table_name РРјСЏ С‚Р°Р±Р»РёС†С‹
   */
 void add_table_to_db(MYSQL* mysql, const std::string& table_name)
 {
@@ -77,9 +77,9 @@ void add_table_to_db(MYSQL* mysql, const std::string& table_name)
 }
 
 /**
- * Удаление таблицы из базы данных
- \param mysql Дескриптор БД
- \param table_name Имя таблицы
+ * РЈРґР°Р»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹ РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+ \param mysql Р”РµСЃРєСЂРёРїС‚РѕСЂ Р‘Р”
+ \param table_name РРјСЏ С‚Р°Р±Р»РёС†С‹
   */
 void delete_table_from_db(MYSQL* mysql, const std::string& table_name)
 {
@@ -87,10 +87,10 @@ void delete_table_from_db(MYSQL* mysql, const std::string& table_name)
 }
 
 /**
- * Добавление данных о пациенте в базу данных(2 и более пациентов)
- \param mysql Дескриптор БД
- \param pull_d Добавляемые данные о пациентах
- \param table_name Имя таблицы
+ * Р”РѕР±Р°РІР»РµРЅРёРµ РґР°РЅРЅС‹С… Рѕ РїР°С†РёРµРЅС‚Рµ РІ Р±Р°Р·Сѓ РґР°РЅРЅС‹С…(2 Рё Р±РѕР»РµРµ РїР°С†РёРµРЅС‚РѕРІ)
+ \param mysql Р”РµСЃРєСЂРёРїС‚РѕСЂ Р‘Р”
+ \param pull_d Р”РѕР±Р°РІР»СЏРµРјС‹Рµ РґР°РЅРЅС‹Рµ Рѕ РїР°С†РёРµРЅС‚Р°С…
+ \param table_name РРјСЏ С‚Р°Р±Р»РёС†С‹
   */
 void add_data_to_db(MYSQL* mysql, std::list<DataExtraction>& pull_d, const std::string& table_name)
 {
@@ -103,10 +103,10 @@ void add_data_to_db(MYSQL* mysql, std::list<DataExtraction>& pull_d, const std::
 }
 
 /**
- * Добавление данных о пациенте в базу данных(1 пациент)
- \param mysql Дескриптор БД
- \param pull_d Добавляемые данные о пациенте
- \param table_name Имя таблицы
+ * Р”РѕР±Р°РІР»РµРЅРёРµ РґР°РЅРЅС‹С… Рѕ РїР°С†РёРµРЅС‚Рµ РІ Р±Р°Р·Сѓ РґР°РЅРЅС‹С…(1 РїР°С†РёРµРЅС‚)
+ \param mysql Р”РµСЃРєСЂРёРїС‚РѕСЂ Р‘Р”
+ \param pull_d Р”РѕР±Р°РІР»СЏРµРјС‹Рµ РґР°РЅРЅС‹Рµ Рѕ РїР°С†РёРµРЅС‚Рµ
+ \param table_name РРјСЏ С‚Р°Р±Р»РёС†С‹
   */
 void add_data_to_db(MYSQL* mysql, DataExtraction pull_d, const std::string& table_name)
 {
@@ -115,9 +115,9 @@ void add_data_to_db(MYSQL* mysql, DataExtraction pull_d, const std::string& tabl
 }
 
 /**
- * Извлечение информации из базы данных
- \param mysql Дескриптор БД
- \return Контейнер данных о пациентах
+ * РР·РІР»РµС‡РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+ \param mysql Р”РµСЃРєСЂРёРїС‚РѕСЂ Р‘Р”
+ \return РљРѕРЅС‚РµР№РЅРµСЂ РґР°РЅРЅС‹С… Рѕ РїР°С†РёРµРЅС‚Р°С…
   */
 std::list<DataExtraction>& pull_data_from_db(MYSQL* mysql)
 {
