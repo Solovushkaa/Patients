@@ -100,7 +100,7 @@ int main()
                 //std::cout << "Table name: "; std::cin >> table_name;
                 system("cls");
 
-                DrawEdit(pos_s);/// Работа в подменю
+                DrawEdit(pos_s);
                 bool flag = false;
                 pos_s = 0;
                 while (true)
