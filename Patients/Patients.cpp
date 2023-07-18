@@ -45,7 +45,7 @@ int main()
     while (true)
         switch (_getch()) { 
         case BUTTON_ENTER:
-            if (pos_f == 0)
+            if (pos_f == 0)/// Подключение к БД
             {
                 CursorInfo.bVisible = true;
                 SetConsoleCursorInfo(hstdout, &CursorInfo);
@@ -140,7 +140,7 @@ int main()
                                 add_data_to_db(mysql, data, table_name);
                             }
                         }
-                        else if (pos_s == 2)
+                        else if (pos_s == 2)/// Вывод данных на экран
                         {
                             SetConsoleTitle(L"Show data from the database");
                             system("cls");
@@ -148,7 +148,7 @@ int main()
                             show_data_from_cont(pull_d);
                             flag = true;
                         }
-                        else if (pos_s == 3)
+                        else if (pos_s == 3)/// Отключение от БД
                         {
                             SetConsoleTitle(L"Disconnect from the Database");
                             system("cls");
@@ -157,7 +157,7 @@ int main()
                             flag = true;
                             system("pause");
                         }
-                        else if (pos_s == 4)
+                        else if (pos_s == 4)/// Удаление таблицы
                         {
                             SetConsoleTitle(L"Delete the table from the Database");
                             system("cls");
@@ -169,7 +169,7 @@ int main()
                             flag = true;
                             system("pause");
                         }
-                        else if (pos_s == 5)
+                        else if (pos_s == 5)/// Удаление БД
                         {
                             SetConsoleTitle(L"Delete the Database");
                             system("cls");
@@ -178,7 +178,7 @@ int main()
                             flag = true;
                             system("pause");
                         }
-                        else if (pos_s == 6)
+                        else if (pos_s == 6)/// Вернуться в меню
                         {
                             mysql_close(mysql);
                             flag = true;
@@ -199,7 +199,7 @@ int main()
                     }
                 }
             }
-            else if (pos_f == 1)
+            else if (pos_f == 1)/// Выход
             {
                 system("cls");
                 return 0;
@@ -217,7 +217,7 @@ int main()
 }
 
 /**
-* Отрисовывает меню в командной строке
+* Отрисовывает работу меню в командной строке
 \param pos_f Параметр, значение которого соответствует строке меню
  */
 void DrawMenu(int pos_f)
