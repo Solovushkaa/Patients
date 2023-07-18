@@ -5,6 +5,12 @@
 #include "mysql.h"
 #include <regex>
 
+/**
+	\brief Класс, содержащий данные о пациенте
+
+	Данный класс имеет цель получить строку данных,
+	разбить ее на части и присвоить значение каждому столбцу таблицы БД 
+ */
 class DataExtraction
 {
 	std::string nm, surnm, birth, age, phonenum;
@@ -21,4 +27,10 @@ public:
 
 std::ostream& operator << (std::ostream& out, const DataExtraction& a);
 
+/**
+	\brief Простейший класс исключений
+
+	При возникновении исключения любого типа
+	будет брошено исключение этого класса
+ */
 class DataExtractionException{};

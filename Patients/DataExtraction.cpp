@@ -1,10 +1,14 @@
 #include "DataExtraction.h"
 
+/**
+* Ãëàâíûé êîíñòğóêòîğ êëàññà DataExtraction
+\param s Ñòğîêà ñ ğàíåå ââåäåííûìè äàííûìè
+ */
 DataExtraction::DataExtraction(const std::string& s)
 {
     if (s != "")
     {
-        std::istringstream input(s);
+        std::istringstream input(s);/// Ñòğîêîâûé ïîòîê ââîäà
         input >> nm;
         if (std::regex_search(nm, std::regex("[0-9]")) || nm.size() > 20) throw DataExtractionException();
         input >> surnm;

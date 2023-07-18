@@ -9,9 +9,15 @@
 #include "DataExtraction.h"
 #include "My_fun_for_MYSQL.h"
 
-HANDLE hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
+/**
+* Получение информации о курсоре
+ */
+HANDLE hstdout = GetStdHandle(STD_OUTPUT_HANDLE); 
 CONSOLE_CURSOR_INFO CursorInfo;
 
+/**
+* Определение макросов для клавиш
+ */
 #define BUTTON_ENTER 13
 #define BUTTON_ESCAPE 27
 #define BUTTON_UP 72
@@ -25,12 +31,15 @@ int main()
 {
     SetConsoleTitle(L"Connect to Host");
 
+    /**
+    * Устранение мерцания курсора
+     */
     GetConsoleCursorInfo(hstdout, &CursorInfo);
     CursorInfo.bVisible = false;
     SetConsoleCursorInfo(hstdout, &CursorInfo);
 
-    int pos_f = 0, pos_s = 0;
-    const int max_pos_f = 1, max_pos_s = 6;
+    int pos_f = 0, pos_s = 0;///< Параметры выбранной строки в меню/подменю
+    const int max_pos_f = 1, max_pos_s = 6;///< Их максимальное значение
 
     DrawMenu(pos_f);
     while (true)
@@ -40,8 +49,8 @@ int main()
             {
                 CursorInfo.bVisible = true;
                 SetConsoleCursorInfo(hstdout, &CursorInfo);
-                system("cls");
-                MYSQL* mysql = mysql_init(NULL); // получаем дескриптор бд
+                system("cls");/// Очистка консоли
+                MYSQL* mysql = mysql_init(NULL); /// Получаем дескриптор БД
 
                 std::string A, B, C; unsigned int D, E;
                 std::list<DataExtraction> pull_d;
@@ -62,14 +71,14 @@ int main()
                 if (ver == 'Y' || ver == 'y')
                 {
                     system("cls");
-                    std::string db_creation_name;
+                    std::string db_creation_name;///< Имя созданной базы данных
                     db_creation_name = "patients"; //std::cout << "Database create name: "; std::cin >> db_creation_name;
                     create_db(mysql, db_creation_name);
                 }
 
                 system("cls");
                 std::cout << "Enter the database name:\n";
-                std::string db_name;
+                std::string db_name;///< Имя базы данных
                 db_name = "patients"; //std::cout << "Database name: "; std::cin >> db_name;
                 mysql = connect_to_DB(A, B, C, db_name, D, E);
                 
@@ -91,7 +100,7 @@ int main()
                 //std::cout << "Table name: "; std::cin >> table_name;
                 system("cls");
 
-                DrawEdit(pos_s);
+                DrawEdit(pos_s);/// Работа в подменю
                 bool flag = false;
                 pos_s = 0;
                 while (true)
@@ -106,7 +115,7 @@ int main()
                     case BUTTON_ENTER: // enter
                         CursorInfo.bVisible = true;
                         SetConsoleCursorInfo(hstdout, &CursorInfo);
-                        if (pos_s == 0)
+                        if (pos_s == 0)/// Ввод данных из файла
                         {
                             SetConsoleTitle(L"Add data from \"txt\" file");
                             system("cls");
@@ -117,11 +126,11 @@ int main()
                             add_data_to_db(mysql, pull_d, table_name);
                             pull_d.clear();
                         }
-                        else if (pos_s == 1)
+                        else if (pos_s == 1)/// Ввод данных из консоли
                         {
                             SetConsoleTitle(L"Add data from console");
                             system("cls");
-                            std::string obj;
+                            std::string obj;/// Строка для ввода данных
                             while (true)
                             {
                                 std::cout << "Enter the information about patient(name, surname, birthdate, age, phonenumber) (press \"e\" to finish):\n";
@@ -207,6 +216,10 @@ int main()
         }
 }
 
+/**
+* Отрисовывает меню в командной строке
+\param pos_f Параметр, значение которого соответствует строке меню
+ */
 void DrawMenu(int pos_f)
 {
     CursorInfo.bVisible = false;
@@ -219,6 +232,10 @@ void DrawMenu(int pos_f)
     DrawArrow(pos_f, 1);
 }
 
+/**
+* Отрисовывает работу подменю главного меню
+\param pos_s Параметр, значение которого соответствует строке подменю
+ */
 void DrawEdit(int pos_s)
 {
     CursorInfo.bVisible = false;
@@ -241,6 +258,10 @@ void DrawEdit(int pos_s)
     DrawArrow(pos_s, 6);
 }
 
+/**
+* Выводит "<-" напротив выбранной строки
+\param pos, pos_if Параметры сравнения выбранной строки
+*/
 void DrawArrow(int pos, int pos_if)
 {
     if (pos == pos_if)
