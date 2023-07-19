@@ -87,3 +87,44 @@ DrawMenu, DrawEdit, DrawArrow - функции, отрисовывающие меню
 
 \param clientflag1 - Клиентский флаг
 
+6.void add_table_to_db(MYSQL* mysql, const std::string& table_name)
+
+Функция добавляет новую таблицу в базу данных
+
+\param mysql - Дескриптор БД
+
+\param table_name - Имя таблицы
+
+7.void delete_table_from_db(MYSQL* mysql, const std::string& table_name)
+
+Функция удаляет таблицу из базы данных
+
+\param mysql - Дескриптор БД
+
+\param table_name - Имя таблицы
+
+8.void add_data_to_db(MYSQL* mysql, std::list<DataExtraction>& pull_d, const std::string& table_name)
+
+Функция добавляет в таблицу данные о 2 или более пациентах
+
+\param mysql - Дескриптор БД
+
+\param pull_d - Добавляемые данные о пациентах
+
+\param table_name - Имя таблицы
+
+9.void add_data_to_db(MYSQL* mysql, DataExtraction pull_d, const std::string& table_name)
+
+Функция добавляет в таблицу данные об 1 пациенте
+
+\param mysql - Дескриптор БД
+
+\param pull_d - Добавляемые данные о пациенте
+
+\param table_name - Имя таблицы
+
+10.std::list<DataExtraction>& pull_data_from_db(MYSQL* mysql)
+
+\param mysql - Дескриптор БД
+
+\return Контейнер данных о пациентах
