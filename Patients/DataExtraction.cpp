@@ -1,14 +1,14 @@
 ﻿#include "DataExtraction.h"
 
 /**
-* Главный конструктор класса DataExtraction
-\param s Строка с ранее введенными данными
+ * Главный конструктор класса DataExtraction
+ \param s Строка, содержащая данные
  */
 DataExtraction::DataExtraction(const std::string& s)
 {
     if (s != "")
     {
-        std::istringstream input(s);/// Строковый поток ввода
+        std::istringstream input(s); /// Строковый поток ввода
         input >> nm;
         if (std::regex_search(nm, std::regex("[0-9]")) || nm.size() > 20) throw DataExtractionException();
         input >> surnm;

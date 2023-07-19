@@ -9,16 +9,10 @@
 #include "DataExtraction.h"
 #include "My_fun_for_MYSQL.h"
 
-/**
-* Получение информации о курсоре
- */
-HANDLE hstdout = GetStdHandle(STD_OUTPUT_HANDLE); 
+HANDLE hstdout = GetStdHandle(STD_OUTPUT_HANDLE); /// Получение информации о курсоре
 CONSOLE_CURSOR_INFO CursorInfo;
 
-/**
-* Определение макросов для клавиш
- */
-#define BUTTON_ENTER 13
+#define BUTTON_ENTER 13 /// Определение макросов для клавиш
 #define BUTTON_ESCAPE 27
 #define BUTTON_UP 72
 #define BUTTON_DOWN 80
@@ -31,25 +25,22 @@ int main()
 {
     SetConsoleTitle(L"Connect to Host");
 
-    /**
-    * Устранение мерцания курсора
-     */
-    GetConsoleCursorInfo(hstdout, &CursorInfo);
+    GetConsoleCursorInfo(hstdout, &CursorInfo); /// Устранение мерцания курсора
     CursorInfo.bVisible = false;
     SetConsoleCursorInfo(hstdout, &CursorInfo);
 
-    int pos_f = 0, pos_s = 0;///< Параметры выбранной строки в меню/подменю
-    const int max_pos_f = 1, max_pos_s = 6;///< Их максимальное значение
+    int pos_f = 0, pos_s = 0; ///< Параметры выбранной строки в меню/подменю
+    const int max_pos_f = 1, max_pos_s = 6; ///< Их максимальное значение
 
     DrawMenu(pos_f);
     while (true)
         switch (_getch()) { 
         case BUTTON_ENTER:
-            if (pos_f == 0)/// Подключение к БД
+            if (pos_f == 0) /// Подключение к БД
             {
                 CursorInfo.bVisible = true;
                 SetConsoleCursorInfo(hstdout, &CursorInfo);
-                system("cls");/// Очистка консоли
+                system("cls"); /// Очистка консоли
                 MYSQL* mysql = mysql_init(NULL); /// Получаем дескриптор БД
 
                 std::string A, B, C; unsigned int D, E;
@@ -71,14 +62,14 @@ int main()
                 if (ver == 'Y' || ver == 'y')
                 {
                     system("cls");
-                    std::string db_creation_name;///< Имя созданной базы данных
+                    std::string db_creation_name; ///< Имя созданной базы данных
                     db_creation_name = "patients"; //std::cout << "Database create name: "; std::cin >> db_creation_name;
                     create_db(mysql, db_creation_name);
                 }
 
                 system("cls");
                 std::cout << "Enter the database name:\n";
-                std::string db_name;///< Имя базы данных
+                std::string db_name; ///< Имя базы данных
                 db_name = "patients"; //std::cout << "Database name: "; std::cin >> db_name;
                 mysql = connect_to_DB(A, B, C, db_name, D, E);
                 
@@ -115,7 +106,7 @@ int main()
                     case BUTTON_ENTER: // enter
                         CursorInfo.bVisible = true;
                         SetConsoleCursorInfo(hstdout, &CursorInfo);
-                        if (pos_s == 0)/// Ввод данных из файла
+                        if (pos_s == 0) /// Ввод данных из файла
                         {
                             SetConsoleTitle(L"Add data from \"txt\" file");
                             system("cls");
@@ -126,11 +117,11 @@ int main()
                             add_data_to_db(mysql, pull_d, table_name);
                             pull_d.clear();
                         }
-                        else if (pos_s == 1)/// Ввод данных из консоли
+                        else if (pos_s == 1) /// Ввод данных из консоли
                         {
                             SetConsoleTitle(L"Add data from console");
                             system("cls");
-                            std::string obj;/// Строка для ввода данных
+                            std::string obj; ///< Строка для ввода данных
                             while (true)
                             {
                                 std::cout << "Enter the information about patient(name, surname, birthdate, age, phonenumber) (press \"e\" to finish):\n";
@@ -140,7 +131,7 @@ int main()
                                 add_data_to_db(mysql, data, table_name);
                             }
                         }
-                        else if (pos_s == 2)/// Вывод данных на экран
+                        else if (pos_s == 2) /// Вывод данных на экран
                         {
                             SetConsoleTitle(L"Show data from the database");
                             system("cls");
@@ -148,7 +139,7 @@ int main()
                             show_data_from_cont(pull_d);
                             flag = true;
                         }
-                        else if (pos_s == 3)/// Отключение от БД
+                        else if (pos_s == 3) /// Отключение от БД
                         {
                             SetConsoleTitle(L"Disconnect from the Database");
                             system("cls");
@@ -157,7 +148,7 @@ int main()
                             flag = true;
                             system("pause");
                         }
-                        else if (pos_s == 4)/// Удаление таблицы
+                        else if (pos_s == 4) /// Удаление таблицы
                         {
                             SetConsoleTitle(L"Delete the table from the Database");
                             system("cls");
@@ -169,7 +160,7 @@ int main()
                             flag = true;
                             system("pause");
                         }
-                        else if (pos_s == 5)/// Удаление БД
+                        else if (pos_s == 5) /// Удаление БД
                         {
                             SetConsoleTitle(L"Delete the Database");
                             system("cls");
@@ -178,7 +169,7 @@ int main()
                             flag = true;
                             system("pause");
                         }
-                        else if (pos_s == 6)/// Вернуться в меню
+                        else if (pos_s == 6) /// Вернуться в меню
                         {
                             mysql_close(mysql);
                             flag = true;
@@ -199,7 +190,7 @@ int main()
                     }
                 }
             }
-            else if (pos_f == 1)/// Выход
+            else if (pos_f == 1) /// Выход
             {
                 system("cls");
                 return 0;
@@ -217,8 +208,8 @@ int main()
 }
 
 /**
-* Отрисовывает работу меню в командной строке
-\param pos_f Параметр, значение которого соответствует строке меню
+ * Отрисовывает работу меню в командной строке
+ \param pos_f Параметр, значение которого соответствует строке меню
  */
 void DrawMenu(int pos_f)
 {
@@ -233,8 +224,8 @@ void DrawMenu(int pos_f)
 }
 
 /**
-* Отрисовывает работу подменю главного меню
-\param pos_s Параметр, значение которого соответствует строке подменю
+ * Отрисовывает работу подменю главного меню
+ \param pos_s Параметр, значение которого соответствует строке подменю
  */
 void DrawEdit(int pos_s)
 {
@@ -259,9 +250,9 @@ void DrawEdit(int pos_s)
 }
 
 /**
-* Выводит "<-" напротив выбранной строки
-\param pos, pos_if Параметры сравнения выбранной строки
-*/
+ * Выводит "<-" напротив выбранной строки
+ \param pos, pos_if Параметры сравнения выбранной строки
+ */
 void DrawArrow(int pos, int pos_if)
 {
     if (pos == pos_if)

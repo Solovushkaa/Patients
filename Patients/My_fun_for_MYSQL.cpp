@@ -1,9 +1,9 @@
 ﻿#include "My_fun_for_MYSQL.h"
 
 /**
-* Чтение данных из файла
-\param a Список данных о пациентах
-\param input Имя файла
+ * Чтение данных из файла
+ \param a Список данных о пациентах
+ \param input Имя файла
  */
 void pull_data(std::list<DataExtraction>& a, const std::string& input)
 {
@@ -20,8 +20,8 @@ void pull_data(std::list<DataExtraction>& a, const std::string& input)
 }
 
 /**
-* Вывод данных о пациенте в консоль
-\param a Список данных о пациентах
+ * Вывод данных о пациенте в консоль
+ \param a Список данных о пациентах
  */
 void show_data_from_cont(std::list<DataExtraction>& a)
 {
@@ -29,21 +29,21 @@ void show_data_from_cont(std::list<DataExtraction>& a)
         std::cout << x << "\n";
 }
 
- /**
+/**
  * Создание базы данных
  \param mysql Дескриптор БД
  \param db Имя БД
-  */
+ */
 void create_db(MYSQL* mysql, const std::string& db)
 {
     mysql_query(mysql, ("CREATE DATABASE " + db + ';').c_str());
 }
 
- /**
+/**
  * Удаление базы данных
  \param mysql Дескриптор БД
  \param db Имя БД
-  */
+ */
 void delete_db(MYSQL* mysql, const std::string& db)
 {
     mysql_query(mysql, ("DROP DATABASE " + db + ';').c_str());
@@ -56,8 +56,8 @@ void delete_db(MYSQL* mysql, const std::string& db)
  \param passwd1 Пароль
  \param db1 Имя БД
  \param port1 Порт
- \param clientflag1 
-  */
+ \param clientflag1 Клиентский флаг
+ */
 MYSQL* connect_to_DB(const std::string& host1, const std::string& user1,
     const std::string& passwd1, const std::string& db1, const unsigned int port1, const unsigned long clientflag1)
 {
@@ -70,7 +70,7 @@ MYSQL* connect_to_DB(const std::string& host1, const std::string& user1,
  * Добавление таблицы в базу данных
  \param mysql Дескриптор БД
  \param table_name Имя таблицы
-  */
+ */
 void add_table_to_db(MYSQL* mysql, const std::string& table_name)
 {
     mysql_query(mysql, ("create table " + table_name + "(id int NOT NULL AUTO_INCREMENT, name varchar(20), surname varchar(20), birthdate date, age int(3), phonenumber varchar(12), primary key(id));").c_str());
@@ -80,7 +80,7 @@ void add_table_to_db(MYSQL* mysql, const std::string& table_name)
  * Удаление таблицы из базы данных
  \param mysql Дескриптор БД
  \param table_name Имя таблицы
-  */
+ */
 void delete_table_from_db(MYSQL* mysql, const std::string& table_name)
 {
     mysql_query(mysql, ("drop table " + table_name + ';').c_str());
@@ -91,7 +91,7 @@ void delete_table_from_db(MYSQL* mysql, const std::string& table_name)
  \param mysql Дескриптор БД
  \param pull_d Добавляемые данные о пациентах
  \param table_name Имя таблицы
-  */
+ */
 void add_data_to_db(MYSQL* mysql, std::list<DataExtraction>& pull_d, const std::string& table_name)
 {
     for (const DataExtraction& row : pull_d)
@@ -107,7 +107,7 @@ void add_data_to_db(MYSQL* mysql, std::list<DataExtraction>& pull_d, const std::
  \param mysql Дескриптор БД
  \param pull_d Добавляемые данные о пациенте
  \param table_name Имя таблицы
-  */
+ */
 void add_data_to_db(MYSQL* mysql, DataExtraction pull_d, const std::string& table_name)
 {
     mysql_query(mysql, ("insert into " + table_name + " (name, surname, birthdate, age, phonenumber) values " +
@@ -118,7 +118,7 @@ void add_data_to_db(MYSQL* mysql, DataExtraction pull_d, const std::string& tabl
  * Извлечение информации из базы данных
  \param mysql Дескриптор БД
  \return Контейнер данных о пациентах
-  */
+ */
 std::list<DataExtraction>& pull_data_from_db(MYSQL* mysql)
 {
     std::list<DataExtraction> a;
