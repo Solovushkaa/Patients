@@ -70,7 +70,7 @@ DrawMenu, DrawEdit, DrawArrow - функции, отрисовывающие меню
 
 \param db - Имя БД
 
-MYSQL* connect_to_DB(const std::string& host1, const std::string& user1,
+5.MYSQL* connect_to_DB(const std::string& host1, const std::string& user1,
     const std::string& passwd1, const std::string& db1, const unsigned int port1, const unsigned long clientflag1)
 
 Функция осуществляет подключение к базе данных
