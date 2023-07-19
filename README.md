@@ -44,15 +44,46 @@ DrawMenu, DrawEdit, DrawArrow - функции, отрисовывающие меню
 
 Функция считывает данные из файла и добавляет в таблицу
 
-\param a Список данных о пациентах
+\param a - Список данных о пациентах
 
-\param input Имя файла
+\param input - Имя файла
 
 2.void show_data_from_cont(std::list<DataExtraction>& a)
 
+Функция выводит данные о пациентах в консоль
 
+\param a - Список данных о пациентах
 
+3.void create_db(MYSQL* mysql, const std::string& db)
 
+Функция генерирует новую базу данных
 
+\param mysql - Дескриптор БД
 
+\param db - Имя БД
+
+4.void delete_db(MYSQL* mysql, const std::string& db)
+
+Функция удаляет базу данных
+
+\param mysql - Дескриптор БД
+
+\param db - Имя БД
+
+MYSQL* connect_to_DB(const std::string& host1, const std::string& user1,
+    const std::string& passwd1, const std::string& db1, const unsigned int port1, const unsigned long clientflag1)
+
+Функция осуществляет подключение к базе данных
+
+\param host1 - Хост
+
+\param user1 - Имя пользователя
+
+\param passwd1 - Пароль
+
+\param db1 - Имя БД
+
+\param port1 - Порт
+
+\param clientflag1 - Клиентский флаг
 
